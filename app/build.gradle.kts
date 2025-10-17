@@ -7,6 +7,10 @@ android {
     namespace = "com.marcal.recordkeeper"
     compileSdk = 36
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.marcal.recordkeeper"
         minSdk = 25
