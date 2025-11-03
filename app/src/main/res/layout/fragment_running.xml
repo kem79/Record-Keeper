@@ -101,6 +101,7 @@
                 android:id="@+id/container_10km"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:padding="12dp">
 
                 <TextView
@@ -148,6 +149,7 @@
                 android:id="@+id/container_half_marathon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:padding="12dp">
 
                 <TextView
@@ -195,6 +197,7 @@
                 android:id="@+id/container_marathon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:padding="12dp">
 
                 <TextView
