@@ -1,6 +1,7 @@
 package com.marcal.recordkeeper
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
@@ -19,6 +20,11 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         binding.bottomNav.setOnItemSelectedListener(this)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar, menu)
+        return true
+    }
+
     private fun onCyclingClick(): Boolean {
         supportFragmentManager.commit {
             replace(R.id.frame_content, CyclingFragment())
@@ -35,7 +41,7 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
 
     override fun onNavigationItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.nav_running -> onRunningClick()
-        R.id.nav_cycling -> onRunningClick()
+        R.id.nav_cycling -> onCyclingClick()
         else -> false
     }
 }

@@ -11,4 +11,7 @@
     <string name="best_average_speed">Best Average Speed</string>
     <string name="biggest_climb_header">Biggest Climb</string>
     <string name="cycling_image_description">cycling image description</string>
+    <string name="rest_running_records">Rest Running Records</string>
+    <string name="rest_cycling_records">Rest Cycling Records</string>
+    <string name="reset_all_records">Reset All Records</string>
 </resources>
