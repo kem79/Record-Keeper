@@ -27,14 +27,15 @@ class RunningFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        binding.container5km.setOnClickListener { launchEditRunningRecordScreen() }
-        binding.container10km.setOnClickListener { launchEditRunningRecordScreen() }
-        binding.containerHalfMarathon.setOnClickListener { launchEditRunningRecordScreen() }
-        binding.containerMarathon.setOnClickListener { launchEditRunningRecordScreen() }
+        binding.container5km.setOnClickListener { launchEditRunningRecordScreen("5km") }
+        binding.container10km.setOnClickListener { launchEditRunningRecordScreen("10km") }
+        binding.containerHalfMarathon.setOnClickListener { launchEditRunningRecordScreen("Half Marathon") }
+        binding.containerMarathon.setOnClickListener { launchEditRunningRecordScreen("Marathon") }
     }
 
-    private fun launchEditRunningRecordScreen() {
+    private fun launchEditRunningRecordScreen(distance: String) {
         val intent = Intent(context, EditRunningRecordActivity::class.java)
+        intent.putExtra("Distance", distance)
         startActivity(intent)
     }
 
