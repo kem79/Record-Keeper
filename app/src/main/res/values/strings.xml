@@ -3,4 +3,8 @@
     <string name="running">Running</string>
     <string name="cycling">Cycling</string>
     <string name="running_image_description">Running image</string>
+    <string name="five_km_heading">5km</string>
+    <string name="ten_km_heading">10km</string>
+    <string name="half_marathon_heading">Half Marathon</string>
+    <string name="marathon_heading">Marathon</string>
 </resources>
