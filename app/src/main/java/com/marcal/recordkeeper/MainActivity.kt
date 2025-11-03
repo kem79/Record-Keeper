@@ -19,28 +19,24 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         binding.bottomNav.setOnItemSelectedListener(this)
     }
 
-    private fun onCyclingClick() {
+    private fun onCyclingClick(): Boolean {
         supportFragmentManager.commit {
             replace(R.id.frame_content, CyclingFragment())
         }
+        return true
     }
 
-    private fun onRunningClick() {
+    private fun onRunningClick(): Boolean {
         supportFragmentManager.commit {
             replace(R.id.frame_content, RunningFragment())
         }
+        return true
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.nav_running) {
-            onRunningClick()
-            return true
-        } else if (item.itemId == R.id.nav_cycling) {
-            onCyclingClick()
-            return true
-        } else {
-            return false
-        }
+    override fun onNavigationItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.nav_running -> onRunningClick()
+        R.id.nav_cycling -> onRunningClick()
+        else -> false
     }
 }
 
