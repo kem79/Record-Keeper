@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RecordKeeper">
         <activity
-            android:name=".EditCyclingRecordActivity"
+            android:name=".cycling.EditCyclingRecordActivity"
             android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".EditRunningRecordActivity"
+            android:name=".running.EditRunningRecordActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity

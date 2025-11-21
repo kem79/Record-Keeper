@@ -1,4 +1,4 @@
-package com.marcal.recordkeeper
+package com.marcal.recordkeeper.cycling
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.marcal.recordkeeper.cycling.EditCyclingRecordActivity
 import com.marcal.recordkeeper.databinding.FragmentCyclingBinding
-
 
 class CyclingFragment: Fragment() {
 
