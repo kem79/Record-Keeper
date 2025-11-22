@@ -14,4 +14,8 @@
     <string name="rest_running_records">Rest Running Records</string>
     <string name="rest_cycling_records">Rest Cycling Records</string>
     <string name="reset_all_records">Reset All Records</string>
+    <string name="record_hint">Record</string>
+    <string name="hint_date">Date</string>
+    <string name="button_save">Save</string>
+    <string name="button_delete">Delete Record</string>
 </resources>
