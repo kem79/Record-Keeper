@@ -20,6 +20,7 @@ class EditRunningRecordActivity : AppCompatActivity() {
         val distance = intent.getStringExtra("Distance")
         title = "$distance Record"
 
+        displayRecord(distance)
         binding.buttonSave.setOnClickListener { saveRecord(distance) }
 
         // default preference file without name (name is fully qualified package name + _preferences.xml
@@ -44,6 +45,15 @@ class EditRunningRecordActivity : AppCompatActivity() {
         activitySharedPref.edit {
             putBoolean("my data key", true)
         }
+    }
+
+    private fun displayRecord(distance: String?) {
+        binding.editTextRecord
+            .setText(getSharedPreferences("running_preferences", Context.MODE_PRIVATE)
+                .getString("$distance record", null))
+        binding
+            .editTextDate.setText(getSharedPreferences("running_preferences", Context.MODE_PRIVATE)
+                .getString("$distance date", null))
     }
 
     private fun saveRecord(distance: String?) {
