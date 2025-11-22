@@ -21,7 +21,10 @@ class EditRunningRecordActivity : AppCompatActivity() {
         title = "$distance Record"
 
         displayRecord(distance)
-        binding.buttonSave.setOnClickListener { saveRecord(distance) }
+        binding.buttonSave.setOnClickListener {
+            saveRecord(distance)
+            finish()
+        }
 
         // default preference file without name (name is fully qualified package name + _preferences.xml
         // it s application wide preferences file
