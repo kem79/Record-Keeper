@@ -1,6 +1,7 @@
 package com.marcal.recordkeeper.running
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -10,6 +11,7 @@ import com.marcal.recordkeeper.databinding.ActivityEditRunningRecordBinding
 class EditRunningRecordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditRunningRecordBinding
+    private lateinit var runningSharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +19,8 @@ class EditRunningRecordActivity : AppCompatActivity() {
         setContentView(binding.root)
         val distance = intent.getStringExtra("Distance")
         title = "$distance Record"
+
+        binding.buttonSave.setOnClickListener { saveRecord(distance) }
 
         // default preference file without name (name is fully qualified package name + _preferences.xml
         // it s application wide preferences file
@@ -39,6 +43,23 @@ class EditRunningRecordActivity : AppCompatActivity() {
         val activitySharedPref = getSharedPreferences("my activity file name", Context.MODE_PRIVATE)
         activitySharedPref.edit {
             putBoolean("my data key", true)
+        }
+    }
+
+    private fun saveRecord(distance: String?) {
+        val record = binding.editTextRecord.text.toString()
+        val date = binding.editTextDate.text.toString()
+
+//        val editor = runningSharedPref.edit()
+//        editor.putString("record", record)
+//        editor.putString("date", date)
+//        // commit changes to the shared pref file
+//        editor.apply()
+
+        runningSharedPref = getSharedPreferences("running_preferences", Context.MODE_PRIVATE)
+        runningSharedPref.edit {
+            putString("$distance record", record)
+            putString("$distance date", date)
         }
     }
 }
