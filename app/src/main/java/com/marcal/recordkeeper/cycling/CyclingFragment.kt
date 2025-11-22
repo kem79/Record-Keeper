@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.marcal.recordkeeper.cycling.EditCyclingRecordActivity
 import com.marcal.recordkeeper.databinding.FragmentCyclingBinding
+import com.marcal.recordkeeper.editrecord.EditRecordActivity
 
 class CyclingFragment: Fragment() {
 
@@ -28,14 +28,15 @@ class CyclingFragment: Fragment() {
     }
 
     private fun setOnClickListeners() {
-        binding.containerLongestRide.setOnClickListener { launchEditCyclingActivity("Longest Ride") }
-        binding.containerBestAverageSpeed.setOnClickListener { launchEditCyclingActivity("Best Average Speed") }
-        binding.containerBiggestClimb.setOnClickListener { launchEditCyclingActivity("Biggest Climb") }
+        binding.containerLongestRide.setOnClickListener { launchEditCyclingActivity("Longest Ride", "Distance") }
+        binding.containerBestAverageSpeed.setOnClickListener { launchEditCyclingActivity("Best Average Speed", "Average Speed") }
+        binding.containerBiggestClimb.setOnClickListener { launchEditCyclingActivity("Biggest Climb", "Height") }
     }
 
-    private fun launchEditCyclingActivity(record: String) {
-        val intent = Intent(context, EditCyclingRecordActivity::class.java)
-        intent.putExtra("Record", record)
+    private fun launchEditCyclingActivity(record: String, recordFieldHint: String) {
+        val intent = Intent(context, EditRecordActivity::class.java)
+        intent.putExtra("screen_data",
+            EditRecordActivity.ScreenData(record, "cycling", recordFieldHint))
         startActivity(intent)
     }
 

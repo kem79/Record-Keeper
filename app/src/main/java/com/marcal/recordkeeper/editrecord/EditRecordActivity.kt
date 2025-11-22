@@ -1,21 +1,24 @@
-package com.marcal.recordkeeper.running
+package com.marcal.recordkeeper.editrecord
 
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
-import com.marcal.recordkeeper.databinding.ActivityEditRunningRecordBinding
+import com.marcal.recordkeeper.databinding.ActivityEditRecordBinding
+import java.io.Serializable
 
-class EditRunningRecordActivity : AppCompatActivity() {
+class EditRecordActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityEditRunningRecordBinding
-    private val runningSharedPref by lazy { getSharedPreferences("running_preferences", Context.MODE_PRIVATE) }
-    private val distance: String? by lazy { intent.getStringExtra("Distance") }
+    private lateinit var binding: ActivityEditRecordBinding
+    private val screenData: ScreenData by lazy {
+        intent.getSerializableExtra("screen_data") as ScreenData }
+    private val recordPreferences by lazy { getSharedPreferences(screenData.sharedPreferencesName,
+        MODE_PRIVATE
+    ) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityEditRunningRecordBinding.inflate(layoutInflater)
+        binding = ActivityEditRecordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupUi()
@@ -32,21 +35,22 @@ class EditRunningRecordActivity : AppCompatActivity() {
         // 1 file per activity
         // package name + activity name + .xml
         // seldom use, only if your activity requires a config specific to theis view
-        val activityPreferences = getPreferences(Context.MODE_PRIVATE)
+        val activityPreferences = getPreferences(MODE_PRIVATE)
         activityPreferences.edit {
             putInt("some data key for my activity", 15)
         }
 
         // shared preferences (multiple preferences files)
         // arguably the most useful
-        val activitySharedPref = getSharedPreferences("my activity file name", Context.MODE_PRIVATE)
+        val activitySharedPref = getSharedPreferences("my activity file name", MODE_PRIVATE)
         activitySharedPref.edit {
             putBoolean("my data key", true)
         }
     }
 
     private fun setupUi() {
-        title = "$distance Record"
+        title = "${screenData.record} Record"
+        binding.textInputRecord.hint = screenData.recordFiledHint
         binding.buttonSave.setOnClickListener {
             saveRecord()
             finish()
@@ -58,15 +62,15 @@ class EditRunningRecordActivity : AppCompatActivity() {
     }
 
     private fun deleteRecord() {
-        runningSharedPref.edit {
-            remove("$distance record")
-            remove("$distance date")
+        recordPreferences.edit {
+            remove("${screenData.record} record")
+            remove("${screenData.record} date")
         }
     }
 
     private fun displayRecord() {
-        binding.editTextRecord.setText(runningSharedPref.getString("$distance record", null))
-        binding.editTextDate.setText(runningSharedPref.getString("$distance date", null))
+        binding.editTextRecord.setText(recordPreferences.getString("${screenData.record} record", null))
+        binding.editTextDate.setText(recordPreferences.getString("${screenData.record} date", null))
     }
 
     private fun saveRecord() {
@@ -79,9 +83,16 @@ class EditRunningRecordActivity : AppCompatActivity() {
 //        // commit changes to the shared pref file
 //        editor.apply()
 
-        runningSharedPref.edit {
-            putString("$distance record", record)
-            putString("$distance date", date)
+        recordPreferences.edit {
+            putString("${screenData.record} record", record)
+            putString("${screenData.record} date", date)
         }
     }
+
+    data class ScreenData(
+        val record: String,
+        val sharedPreferencesName: String,
+        val recordFiledHint: String
+    ): Serializable
+
 }
