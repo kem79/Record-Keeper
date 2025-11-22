@@ -1,5 +1,6 @@
 package com.marcal.recordkeeper.running
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,6 +25,20 @@ class RunningFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupClickListeners()
+        displayRecord()
+    }
+
+    private fun displayRecord() {
+        val runningPref = requireContext().getSharedPreferences("running_preferences", Context.MODE_PRIVATE)
+
+        binding.textView5kmValue.text = runningPref.getString("5km record", null)
+        binding.textView5kmDate.text = runningPref.getString("5km date", null)
+        binding.textView10kmValue.text = runningPref.getString("10km record", null)
+        binding.textView10kmDate.text = runningPref.getString("10km date", null)
+        binding.textViewHalfMarathonValue.text = runningPref.getString("Half Marathon record", null)
+        binding.textViewHalfMarathonDate.text = runningPref.getString("Half Marathon date", null)
+        binding.textViewMarathonValue.text = runningPref.getString("Marathon record", null)
+        binding.textViewMarathonDate.text = runningPref.getString("Marathon date", null)
     }
 
     private fun setupClickListeners() {
