@@ -13,7 +13,7 @@ import com.marcal.recordkeeper.editrecord.EditRecordActivity
 class RunningFragment : Fragment() {
     private lateinit var binding: FragmentRunningBinding
     companion object {
-        const val sharedPropertyName = "running"
+        const val sharedPropertyFileName = "running"
 
     }
 
@@ -45,7 +45,7 @@ class RunningFragment : Fragment() {
     }
 
     private fun displayRecord() {
-        val runningPref = requireContext().getSharedPreferences(sharedPropertyName, Context.MODE_PRIVATE)
+        val runningPref = requireContext().getSharedPreferences(sharedPropertyFileName, Context.MODE_PRIVATE)
 
         binding.textView5kmValue.text = runningPref.getString("5km record", null)
         binding.textView5kmDate.text = runningPref.getString("5km date", null)
@@ -67,7 +67,7 @@ class RunningFragment : Fragment() {
     private fun launchEditRunningRecordScreen(distance: String) {
         val intent = Intent(context, EditRecordActivity::class.java)
         intent.putExtra("screen_data",
-            EditRecordActivity.ScreenData(distance, sharedPropertyName, "Time"))
+            EditRecordActivity.ScreenData(distance, sharedPropertyFileName, "Time"))
         startActivity(intent)
     }
 

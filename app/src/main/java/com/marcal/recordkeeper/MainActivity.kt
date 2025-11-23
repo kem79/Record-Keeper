@@ -1,10 +1,9 @@
 package com.marcal.recordkeeper
 
-import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.fragment.app.commit
@@ -14,6 +13,11 @@ import com.marcal.recordkeeper.databinding.ActivityMainBinding
 import com.marcal.recordkeeper.running.RunningFragment
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
+
+    companion object {
+        const val allCategoriesOfRecords = "all"
+    }
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,38 +36,58 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val optionClickHandled = when (item.itemId) {
-            R.id.reset_running -> onRestRunningMenuOptionClick(this)
-            R.id.reset_cycling -> onRestCyclingMenuOptionClick(this)
-            R.id.reset_all -> onRestAllMenuOptionClick(this)
+            R.id.reset_running -> {
+                showConfirmationDialog(RunningFragment.sharedPropertyFileName)
+                true
+            }
+
+            R.id.reset_cycling -> {
+                showConfirmationDialog(CyclingFragment.sharedPropertyFileName)
+                true
+            }
+
+            R.id.reset_all -> {
+                showConfirmationDialog(MainActivity.allCategoriesOfRecords)
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
+        return optionClickHandled
+    }
 
+    private fun showConfirmationDialog(selection: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Reset $selection Records")
+            .setMessage("Are you sure you want to clear the records?")
+            .setPositiveButton("Yes") { _, _ ->
+                when (selection) {
+                    MainActivity.allCategoriesOfRecords -> {
+                        getSharedPreferences(
+                            RunningFragment.sharedPropertyFileName,
+                            MODE_PRIVATE
+                        ).edit { clear() }
+                        getSharedPreferences(
+                            CyclingFragment.sharedPropertyFileName,
+                            MODE_PRIVATE
+                        ).edit { clear() }
+                    }
+
+                    else -> getSharedPreferences(selection, MODE_PRIVATE).edit { clear() }
+                }
+                refreshCurrentFragment()
+            }
+            .setNegativeButton("No", null)
+            .show()
+    }
+
+    private fun refreshCurrentFragment() {
         when (binding.bottomNav.selectedItemId) {
             R.id.nav_cycling -> onCyclingClick()
             R.id.nav_running -> onRunningClick()
             else -> {}
         }
-
-        return optionClickHandled
     }
-
-
-    private fun onRestRunningMenuOptionClick(activity: MainActivity): Boolean {
-        getSharedPreferences(RunningFragment.sharedPropertyName, Context.MODE_PRIVATE).edit { clear() }
-        return true
-    }
-
-    private fun onRestCyclingMenuOptionClick(activity: MainActivity): Boolean {
-        getSharedPreferences(CyclingFragment.sharedPropertyFileName, Context.MODE_PRIVATE).edit { clear() }
-        return true
-    }
-
-    private fun onRestAllMenuOptionClick(activity: MainActivity): Boolean {
-        getSharedPreferences(RunningFragment.sharedPropertyName, Context.MODE_PRIVATE).edit { clear() }
-        getSharedPreferences(CyclingFragment.sharedPropertyFileName, Context.MODE_PRIVATE).edit { clear() }
-        return true
-    }
-
 
     private fun onCyclingClick(): Boolean {
         supportFragmentManager.commit {
