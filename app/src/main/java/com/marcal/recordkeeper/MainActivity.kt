@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.fragment.app.commit
 import com.google.android.material.navigation.NavigationBarView
+import com.google.android.material.snackbar.Snackbar
 import com.marcal.recordkeeper.cycling.CyclingFragment
 import com.marcal.recordkeeper.databinding.ActivityMainBinding
 import com.marcal.recordkeeper.running.RunningFragment
@@ -76,9 +77,21 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
                     else -> getSharedPreferences(selection, MODE_PRIVATE).edit { clear() }
                 }
                 refreshCurrentFragment()
+                showConfirmation()
             }
             .setNegativeButton("No", null)
             .show()
+    }
+
+    private fun showConfirmation() {
+        val snackBar = Snackbar.make(
+            binding.frameContent,
+            "Records cleared successfully.",
+            Snackbar.LENGTH_LONG
+        )
+        snackBar.anchorView = binding.bottomNav
+        snackBar.setAction("Undo") { }
+        snackBar.show()
     }
 
     private fun refreshCurrentFragment() {
