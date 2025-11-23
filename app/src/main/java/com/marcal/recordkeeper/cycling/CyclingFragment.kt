@@ -13,7 +13,10 @@ import com.marcal.recordkeeper.editrecord.EditRecordActivity
 class CyclingFragment: Fragment() {
 
     lateinit var binding: FragmentCyclingBinding
-    val sharedPropertyFileName = "cycling"
+    companion object {
+        const val sharedPropertyFileName = "cycling"
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

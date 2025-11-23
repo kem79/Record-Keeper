@@ -12,7 +12,10 @@ import com.marcal.recordkeeper.editrecord.EditRecordActivity
 
 class RunningFragment : Fragment() {
     private lateinit var binding: FragmentRunningBinding
-    private val sharedPropertyName = "running"
+    companion object {
+        const val sharedPropertyName = "running"
+
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
