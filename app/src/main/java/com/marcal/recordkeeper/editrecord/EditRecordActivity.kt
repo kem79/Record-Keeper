@@ -2,6 +2,7 @@ package com.marcal.recordkeeper.editrecord
 
 import android.os.Build
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
@@ -52,6 +53,18 @@ class EditRecordActivity : AppCompatActivity() {
         val activitySharedPref = getSharedPreferences("my activity file name", MODE_PRIVATE)
         activitySharedPref.edit {
             putBoolean("my data key", true)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressedDispatcher.onBackPressed()
+                return true
+            }
+            else -> {
+                return true
+            }
         }
     }
 
