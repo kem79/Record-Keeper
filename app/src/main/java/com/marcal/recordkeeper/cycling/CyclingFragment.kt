@@ -13,10 +13,6 @@ import com.marcal.recordkeeper.editrecord.EditRecordActivity
 class CyclingFragment: Fragment() {
 
     lateinit var binding: FragmentCyclingBinding
-    companion object {
-        const val sharedPropertyFileName = "cycling"
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +34,7 @@ class CyclingFragment: Fragment() {
     }
 
     private fun displayRecords() {
-        val prefs = requireContext().getSharedPreferences(sharedPropertyFileName, Context.MODE_PRIVATE)
+        val prefs = requireContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE)
 
         binding.textViewLongestRideValue.text = prefs.getString("Longest Ride record", null)
         binding.textViewLongestRideDate.text = prefs.getString("Longest Ride date", null)
@@ -56,9 +52,13 @@ class CyclingFragment: Fragment() {
 
     private fun launchEditCyclingActivity(record: String, recordFieldHint: String) {
         val intent = Intent(context, EditRecordActivity::class.java)
-        intent.putExtra("screen_data",
-            EditRecordActivity.ScreenData(record, "cycling", recordFieldHint))
+        intent.putExtra(EditRecordActivity.INTENT_EXTRA_SCREEN_DATA,
+            EditRecordActivity.ScreenData(record, FILENAME, recordFieldHint))
         startActivity(intent)
     }
 
+    companion object {
+        const val FILENAME = "cycling"
+
+    }
 }

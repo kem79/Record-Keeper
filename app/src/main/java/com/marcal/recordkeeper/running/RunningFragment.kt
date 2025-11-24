@@ -9,13 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.marcal.recordkeeper.databinding.FragmentRunningBinding
 import com.marcal.recordkeeper.editrecord.EditRecordActivity
+import com.marcal.recordkeeper.editrecord.EditRecordActivity.Companion.SHARED_PREFERENCES_DATE_KEY
+import com.marcal.recordkeeper.editrecord.EditRecordActivity.Companion.SHARED_PREFERENCES_RECORD_KEY
 
 class RunningFragment : Fragment() {
     private lateinit var binding: FragmentRunningBinding
-    companion object {
-        const val sharedPropertyFileName = "running"
-
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -45,16 +43,16 @@ class RunningFragment : Fragment() {
     }
 
     private fun displayRecord() {
-        val runningPref = requireContext().getSharedPreferences(sharedPropertyFileName, Context.MODE_PRIVATE)
+        val runningPref = requireContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE)
 
-        binding.textView5kmValue.text = runningPref.getString("5km record", null)
-        binding.textView5kmDate.text = runningPref.getString("5km date", null)
-        binding.textView10kmValue.text = runningPref.getString("10km record", null)
-        binding.textView10kmDate.text = runningPref.getString("10km date", null)
-        binding.textViewHalfMarathonValue.text = runningPref.getString("Half Marathon record", null)
-        binding.textViewHalfMarathonDate.text = runningPref.getString("Half Marathon date", null)
-        binding.textViewMarathonValue.text = runningPref.getString("Marathon record", null)
-        binding.textViewMarathonDate.text = runningPref.getString("Marathon date", null)
+        binding.textView5kmValue.text = runningPref.getString("5km $SHARED_PREFERENCES_RECORD_KEY", null)
+        binding.textView5kmDate.text = runningPref.getString("5km $SHARED_PREFERENCES_DATE_KEY", null)
+        binding.textView10kmValue.text = runningPref.getString("10km $SHARED_PREFERENCES_RECORD_KEY", null)
+        binding.textView10kmDate.text = runningPref.getString("10km $SHARED_PREFERENCES_DATE_KEY", null)
+        binding.textViewHalfMarathonValue.text = runningPref.getString("Half Marathon $SHARED_PREFERENCES_RECORD_KEY", null)
+        binding.textViewHalfMarathonDate.text = runningPref.getString("Half Marathon $SHARED_PREFERENCES_DATE_KEY", null)
+        binding.textViewMarathonValue.text = runningPref.getString("Marathon $SHARED_PREFERENCES_RECORD_KEY", null)
+        binding.textViewMarathonDate.text = runningPref.getString("Marathon $SHARED_PREFERENCES_DATE_KEY", null)
     }
 
     private fun setupClickListeners() {
@@ -66,9 +64,15 @@ class RunningFragment : Fragment() {
 
     private fun launchEditRunningRecordScreen(distance: String) {
         val intent = Intent(context, EditRecordActivity::class.java)
-        intent.putExtra("screen_data",
-            EditRecordActivity.ScreenData(distance, sharedPropertyFileName, "Time"))
+        intent.putExtra(EditRecordActivity.INTENT_EXTRA_SCREEN_DATA,
+
+            EditRecordActivity.ScreenData(distance, FILENAME, "Time"))
         startActivity(intent)
+    }
+
+    companion object {
+        const val FILENAME = "running"
+
     }
 
 }

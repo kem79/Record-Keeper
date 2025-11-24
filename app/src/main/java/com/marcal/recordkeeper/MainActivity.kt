@@ -15,10 +15,6 @@ import com.marcal.recordkeeper.running.RunningFragment
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
 
-    companion object {
-        const val allCategoriesOfRecords = "all"
-    }
-
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,17 +34,17 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val optionClickHandled = when (item.itemId) {
             R.id.reset_running -> {
-                showConfirmationDialog(RunningFragment.sharedPropertyFileName)
+                showConfirmationDialog(RUNNING_DISPLAY_VALUE)
                 true
             }
 
             R.id.reset_cycling -> {
-                showConfirmationDialog(CyclingFragment.sharedPropertyFileName)
+                showConfirmationDialog(CYCLING_DISPLAY_VALUE)
                 true
             }
 
             R.id.reset_all -> {
-                showConfirmationDialog(MainActivity.allCategoriesOfRecords)
+                showConfirmationDialog(ALL_DISPLAY_VALUE)
                 true
             }
 
@@ -63,18 +59,23 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             .setMessage("Are you sure you want to clear the records?")
             .setPositiveButton("Yes") { _, _ ->
                 when (selection) {
-                    MainActivity.allCategoriesOfRecords -> {
+                    ALL_DISPLAY_VALUE -> {
                         getSharedPreferences(
-                            RunningFragment.sharedPropertyFileName,
+                            RunningFragment.FILENAME,
                             MODE_PRIVATE
                         ).edit { clear() }
                         getSharedPreferences(
-                            CyclingFragment.sharedPropertyFileName,
+                            CyclingFragment.FILENAME,
                             MODE_PRIVATE
                         ).edit { clear() }
                     }
-
-                    else -> getSharedPreferences(selection, MODE_PRIVATE).edit { clear() }
+                    RUNNING_DISPLAY_VALUE -> {
+                        getSharedPreferences(RunningFragment.FILENAME, MODE_PRIVATE).edit { clear() }
+                    }
+                    CYCLING_DISPLAY_VALUE -> {
+                        getSharedPreferences(CyclingFragment.FILENAME, MODE_PRIVATE).edit { clear() }
+                    }
+                    else -> {}
                 }
                 refreshCurrentFragment()
                 showConfirmation()
@@ -120,6 +121,12 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         R.id.nav_running -> onRunningClick()
         R.id.nav_cycling -> onCyclingClick()
         else -> false
+    }
+
+    companion object {
+        const val RUNNING_DISPLAY_VALUE = "running"
+        const val CYCLING_DISPLAY_VALUE = "cycling"
+        const val ALL_DISPLAY_VALUE = "all"
     }
 }
 
